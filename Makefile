@@ -2,13 +2,13 @@ IDIR =./include
 CC=gcc
 CFLAGS=-I$(IDIR) -Wall
 
-ODIR=obj
+ODIR=./obj
 LDIR=./lib
 SDIR=./src
 
 TARGET=./bin/out
 
-LIBS=-lSDL2 -lSDL2main -lm
+LIBS=
 
 $(ODIR)/%.o: $(SDIR)/%.c
 	$(CC) -c -o $@ $< $(CFLAGS) -g
