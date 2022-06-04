@@ -1,31 +1,30 @@
-IDIR =./include
-CC=gcc
-CFLAGS=-I$(IDIR) -Wall
+CC := clang
+CFLAGS := -Wall -Wextra -Wpedantic
+LDLIBS :=
 
-ODIR=./obj
-LDIR=./lib
-SDIR=./src
+IDIR := ./include
+SDIR := ./src
 
-TARGET=./bin/out
+SRCS := $(wildcard $(SDIR)/**/*.c) $(wildcard $(SDIR)/*.c)
+OBJS := $(patsubst $(SDIR)/%.c,$(ODIR)/%.o,$(SRCS))
 
-LIBS=
+BIN := bin
+EXE := $(BIN)/out
 
-$(ODIR)/%.o: $(SDIR)/%.c
-	$(CC) -c -o $@ $< $(CFLAGS) -g
+.PHONY: all run test clean
 
-$(TARGET): $(patsubst %,$(ODIR)/%,*)
-	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
+all: $(EXE)
 
-.PHONY: run test debug clean
+$(EXE): $(SRCS)
+	$(CC) $(CFLAGS) $(LDLIBS) -I$(IDIR) $^ -o $@
 
 run:
-	$(TARGET)
+	$(EXE)
 
 test:
-	make && make run
-
-debug:
-	make && gdb bin/out
+	@make clean
+	@bear -- make
+	@make run
 
 clean:
-	rm -f $(ODIR)/*.o *~ core $(INCDIR)/*~ 
+	@rm -f $(EXE)
