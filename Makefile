@@ -11,7 +11,7 @@ OBJS := $(patsubst $(SDIR)/%.c,$(ODIR)/%.o,$(SRCS))
 BIN := bin
 EXE := $(BIN)/out
 
-.PHONY: all run test clean
+.PHONY: all run test clean bear
 
 all: $(EXE)
 
@@ -23,8 +23,11 @@ run:
 
 test:
 	@make clean
-	@bear -- make
+	@make
 	@make run
 
 clean:
 	@rm -f $(EXE)
+
+bear:
+	@bear -- make
