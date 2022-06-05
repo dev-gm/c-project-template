@@ -30,4 +30,5 @@ clean:
 	@rm -f $(EXE)
 
 bear:
+	@make clean
 	@bear -- make
